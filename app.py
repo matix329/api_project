@@ -6,13 +6,13 @@ import json
 app = FastAPI()
 
 producer_config = {
-    'bootstrap.servers': 'localhost:9092'
+    'bootstrap.servers': 'localhost:29092'
 }
 producer = Producer(producer_config)
 
 class Data(BaseModel):
-    key: str
-    value: str
+    title: str
+    message: str
 
 @app.get("/")
 async def root():
@@ -21,9 +21,9 @@ async def root():
 @app.post("/data")
 async def send_data(data: Data):
     try:
-        producer.produce('test', key=data.key, value=json.dumps(data.dict()))
+        producer.produce('test', key=data.title, value=json.dumps(data.model_dump()))
         producer.flush()
-        return {"message": "Data sent to Kafka", "data": data.dict()}
+        return {"message": "Data sent to Kafka", "data": data.model_dump()}
     except Exception as e:
         return {"error": str(e)}
 

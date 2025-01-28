@@ -1,7 +1,7 @@
 from confluent_kafka import Consumer
 
 consumer_config = {
-    'bootstrap.servers': 'localhost:9092',
+    'bootstrap.servers': 'localhost:29092',
     'group.id': 'mygroup',
     'auto.offset.reset': 'earliest'
 }
@@ -20,4 +20,4 @@ try:
             continue
         print(f"Received message: {message.value().decode('utf-8')}")
 finally:
-    consumer_close()
+    consumer.close()
