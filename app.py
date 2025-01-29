@@ -21,7 +21,13 @@ async def root():
 @app.post("/data")
 async def send_data(data: Data):
     try:
-        producer.produce('test', key=data.title, value=json.dumps(data.model_dump()))
+        if data.title == "topic_1":
+            producer.produce('topic_1', key=data.title, value=json.dumps(data.model_dump()))
+        elif data.title == "topic_2":
+            producer.produce('topic_2', key=data.title, value=json.dumps(data.model_dump()))
+        else:
+            producer.produce('default_topic', key=data.title, value=json.dumps(data.model_dump()))
+
         producer.flush()
         return {"message": "Data sent to Kafka", "data": data.model_dump()}
     except Exception as e:
