@@ -1,0 +1,10 @@
+{
+  "name": "jdbc-source-postgres",
+  "connector.class": "io.confluent.connect.jdbc.JdbcSourceConnector",
+  "tasks.max": 1,
+  "topic.prefix": "postgres_",
+  "connection.url": "jdbc:postgresql://localhost:5432/mydatabase?user=myuser&password=mypassword",
+  "query": "SELECT * FROM my_table",
+  "mode": "bulk",
+  "poll.interval.ms": 10000
+}
