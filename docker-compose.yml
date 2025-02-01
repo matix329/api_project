@@ -28,28 +28,6 @@ services:
     networks:
       - kafka-net
 
-  kafka-connect:
-    image: confluentinc/cp-kafka-connect:latest
-    environment:
-      CONNECT_BOOTSTRAP_SERVERS: kafka:9092
-      CONNECT_REST_PORT: 8083
-      CONNECT_GROUP_ID: "connect-cluster"
-      CONNECT_CONFIG_STORAGE_TOPIC: "connect-configs"
-      CONNECT_OFFSET_STORAGE_TOPIC: "connect-offsets"
-      CONNECT_STATUS_STORAGE_TOPIC: "connect-statuses"
-      CONNECT_REST_ADVERTISED_HOST_NAME: "localhost"
-      CONNECT_KEY_CONVERTER: "org.apache.kafka.connect.storage.StringConverter"
-      CONNECT_VALUE_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
-      CONNECT_KEY_CONVERTER_SCHEMAS_ENABLE: "false"
-      CONNECT_VALUE_CONVERTER_SCHEMAS_ENABLE: "false"
-      CONNECT_JDBC_URL: "jdbc:postgresql://localhost:5432/mydatabase?user=myuser&password=mypassword"
-    ports:
-      - "8083:8083"
-    depends_on:
-      - kafka
-    networks:
-      - kafka-net
-
   kafka-ui:
     container_name: kafka-ui
     image: provectuslabs/kafka-ui:latest
