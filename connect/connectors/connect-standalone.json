@@ -1,8 +1,0 @@
-{
-  "bootstrap.servers": "apiproject-kafka-1:29092",
-  "key.converter": "org.apache.kafka.connect.storage.StringConverter",
-  "value.converter": "org.apache.kafka.connect.json.JsonConverter",
-  "value.converter.schemas.enable": false,
-  "group.id": "mygroup",
-  "offset.flush.interval.ms": 10000
-}
