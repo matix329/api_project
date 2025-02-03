@@ -30,6 +30,7 @@ async def read_root():
         "processor": platform.processor(),
         "server_time": time.time()
     }
+    return system_info
 
 @app.get("/error")
 async def error():
