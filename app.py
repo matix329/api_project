@@ -3,6 +3,8 @@ from pydantic import BaseModel
 from confluent_kafka import Producer
 import json
 import logging
+import platform
+import time
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -21,7 +23,13 @@ class Data(BaseModel):
 @app.get("/")
 async def read_root():
     logger.info("Root endpoint accessed.")
-    return {"message": "Hello World"}
+    system_info = {
+        "platform": platform.system(),
+        "platform_version": platform.version(),
+        "machine": platform.machine(),
+        "processor": platform.processor(),
+        "server_time": time.time()
+    }
 
 @app.get("/error")
 async def error():
