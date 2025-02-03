@@ -2,6 +2,10 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from confluent_kafka import Producer
 import json
+import logging
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 app = FastAPI()
 
@@ -15,8 +19,14 @@ class Data(BaseModel):
     message: str
 
 @app.get("/")
-async def root():
+async def read_root():
+    logger.info("Root endpoint accessed.")
     return {"message": "Hello World"}
+
+@app.get("/error")
+async def error():
+    logger.error("Error endpoint accessed.")
+    raise Exception("Something went wrong!")
 
 @app.post("/data")
 async def send_data(data: Data):
