@@ -1,4 +1,4 @@
-from confluent_kafka import Consumer
+from confluent_kafka import Consumer, KafkaError, KafkaException
 import logging
 
 logging.basicConfig(level=logging.INFO)
@@ -13,7 +13,6 @@ consumer = Consumer(consumer_config)
 consumer.subscribe(['test'])
 
 print("Consumer is ready to consume messages...")
-
 
 try:
     while True:
