@@ -32,11 +32,6 @@ async def read_root():
     }
     return system_info
 
-@app.get("/error")
-async def error():
-    logger.error("Error endpoint accessed.")
-    raise Exception("Something went wrong!")
-
 @app.post("/data")
 async def send_data(data: Data):
     try:
@@ -46,11 +41,10 @@ async def send_data(data: Data):
             producer.produce('topic_2', key=data.title, value=json.dumps(data.model_dump()))
         else:
             producer.produce('default_topic', key=data.title, value=json.dumps(data.model_dump()))
-
         producer.flush()
         return {"message": "Data sent to Kafka", "data": data.model_dump()}
     except Exception as e:
-        return {"error": str(e)}
+        return {"message": "An error occurred", "error": str(e)}
 
 if __name__ == "__main__":
     import uvicorn
