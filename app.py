@@ -1,5 +1,5 @@
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel, root_validator
+from pydantic import BaseModel, model_validator
 from confluent_kafka import Producer
 import json
 import logging
@@ -20,7 +20,8 @@ class Data(BaseModel):
     title: str
     message: str
 
-    @root_validator(pre=True)
+    @model_validator(mode="before")
+    @classmethod
     def check_title(cls, values):
         if values.get('title') not in ['topic_1', 'topic_2']:
             raise ValueError("Title must be either 'topic_1' or 'topic_2'")
