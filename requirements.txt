@@ -3,3 +3,4 @@ uvicorn
 confluent-kafka
 six
 python-dotenv
+psycopg2
