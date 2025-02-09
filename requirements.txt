@@ -4,3 +4,4 @@ confluent-kafka
 six
 python-dotenv
 psycopg2
+apache-airflow
