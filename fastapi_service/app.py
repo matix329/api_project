@@ -1,5 +1,5 @@
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel, model_validator
+from pydantic import BaseModel, field_validator
 from confluent_kafka import Producer
 import json
 import logging
@@ -20,12 +20,19 @@ class Data(BaseModel):
     title: str
     message: str
 
-    @model_validator(mode="before")
+    @field_validator('title')
     @classmethod
-    def check_title(cls, values):
-        if values.get('title') not in ['topic_1', 'topic_2']:
+    def check_title(cls, v):
+        if v not in ['topic_1', 'topic_2']:
             raise ValueError("Title must be either 'topic_1' or 'topic_2'")
-        return values
+        return v
+
+    @field_validator('message')
+    @classmethod
+    def check_message(cls, v):
+        if len(v) < 10:
+            raise ValueError("Message length must be at least 10 characters.")
+        return v
 
 @app.get("/")
 async def read_root():
